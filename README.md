@@ -131,7 +131,7 @@ docker-compose up --build
 
 > The image is built and the container starts successfully with Uvicorn running on port 8000.
 
-![Docker Build Output](docker_build.png)
+![Docker Build Output](output/docker_build.png)
 
 ---
 
@@ -153,11 +153,11 @@ http://localhost:8000/docs
 
 ### GET `/users` — Retrieve All Users
 
-![GET Endpoint Response](get_endpoint.png)
+![GET Endpoint Response](output/get_endpoint.png)
 
 ### POST `/users` — Add a New User
 
-![POST Endpoint Response](post_endpoint.png)
+![POST Endpoint Response](output/post_endpoint.png)
 
 ---
 
@@ -174,7 +174,7 @@ docker-compose up
 
 > The container stops, is removed, and is recreated. Data written to the volume persists across restarts.
 
-![Docker Stop and Restart](docker_stop_restart.png)
+![Docker Stop and Restart](output/docker_stop_restart.png)
 
 ### Step 3 — Verify data is still present via `GET /users`
 
@@ -189,7 +189,7 @@ cat /app/data/users.json
 
 > The `users.json` file inside the container shows all stored users including those added before the restart.
 
-![Users JSON Data](users_data.png)
+![Users JSON Data](output/users_data.png)
 
 ---
 
