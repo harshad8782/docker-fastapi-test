@@ -1,37 +1,42 @@
 import os
 import json
-from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent
-datafolder = os.path.join(BASE_DIR, "data")
-datasource = os.path.join(datafolder, "users.json")
+# Get data directory from environment variable
+DATA_DIR = os.getenv("DATA_DIR", "/app/data")
+
+# Define file path
+datasource = os.path.join(DATA_DIR, "users.json")
+
 
 def check_dataset_exists():
-    if not os.path.exists(datafolder):
-        os.mkdir(datafolder)
+    # Create directory if not exists
+    os.makedirs(DATA_DIR, exist_ok=True)
+
+    # Create file with default structure if not exists
     if not os.path.exists(datasource):
         with open(datasource, "w") as f:
-            f.write("")
-            
-            
+            f.write('{"data": []}')
+
+
 def read_usersdata():
     check_dataset_exists()
+
     with open(datasource, "r") as f:
-        content = f.read()
-        if content == "":
-            content = '{"data": []}'
-        users = json.loads(content)
-    return users
+        content = f.read().strip()
+
+        if not content:
+            return {"data": []}
+
+        return json.loads(content)
 
 
 def add_userdata(user: dict):
     users = read_usersdata()
 
-    with open(datasource, "w") as f:
-        if "data" in users:
-            users["data"].append(user)
-        else:
-            users["data"] = [user]
+    if "data" not in users:
+        users["data"] = []
 
-        data = json.dumps(users, indent=2)
-        f.write(data)
+    users["data"].append(user)
+
+    with open(datasource, "w") as f:
+        json.dump(users, f, indent=2)
