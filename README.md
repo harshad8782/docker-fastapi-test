@@ -3,6 +3,8 @@
 ## 📌 Overview
 This project demonstrates how to containerize a FastAPI application using Docker and Docker Compose while ensuring data persistence using volumes and environment variables.
 
+---
+
 ## 🧱 Project Structure
 
 ```bash
@@ -18,11 +20,15 @@ This project demonstrates how to containerize a FastAPI application using Docker
 └── README.md
 ```
 
+---
+
 ## ⚙️ Technologies Used
 - Python 3.10
 - FastAPI
 - Docker
 - Docker Compose
+
+---
 
 ## 🐳 Dockerfile
 
@@ -44,6 +50,8 @@ EXPOSE 8000
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
+---
+
 ## 🧩 docker-compose.yml
 
 ```yaml
@@ -61,6 +69,8 @@ services:
       - DATA_DIR=/app/data
     restart: always
 ```
+
+---
 
 ## 🔑 Key Concepts
 
@@ -81,6 +91,8 @@ This maps the local `data/` folder to the container path `/app/data`.
 
 Because of this volume mapping, data remains available even after the container is stopped or restarted.
 
+---
+
 ## 🌍 Environment Variables
 
 The application uses an environment variable to define the data directory:
@@ -94,6 +106,8 @@ DATA_DIR = os.getenv("DATA_DIR", "/app/data")
 - Works across local, Docker, and production setups
 - Follows configuration best practices
 
+---
+
 ## 📦 Data Handling
 - Data is stored in `users.json`
 - The file is automatically created if it does not exist
@@ -105,6 +119,8 @@ DATA_DIR = os.getenv("DATA_DIR", "/app/data")
 }
 ```
 
+---
+
 ## ▶️ How to Run
 
 ### 1. Build and Start the Container
@@ -113,13 +129,11 @@ DATA_DIR = os.getenv("DATA_DIR", "/app/data")
 docker-compose up --build
 ```
 
-### 2. Access the API Documentation
+> The image is built and the container starts successfully with Uvicorn running on port 8000.
 
-Open:
+![Docker Build Output](docker_build.png)
 
-```bash
-http://localhost:8000/docs
-```
+---
 
 ## 🧪 API Endpoints
 
@@ -129,28 +143,55 @@ http://localhost:8000/docs
 | GET | `/users` | Get all users |
 | POST | `/users` | Add a new user |
 
+### 2. Access the API Documentation
+
+Open:
+
+```
+http://localhost:8000/docs
+```
+
+### GET `/users` — Retrieve All Users
+
+![GET Endpoint Response](get_endpoint.png)
+
+### POST `/users` — Add a New User
+
+![POST Endpoint Response](post_endpoint.png)
+
+---
+
 ## 🔁 Data Persistence Test
 
-1. Add a user using `POST /users`
-2. Stop the container:
+### Step 1 — Add a user via `POST /users`
+
+### Step 2 — Stop and restart the container
 
 ```bash
 docker-compose down
-```
-
-3. Restart the container:
-
-```bash
 docker-compose up
 ```
 
-4. Check the saved data using:
+> The container stops, is removed, and is recreated. Data written to the volume persists across restarts.
 
-```bash
-GET /users
-```
+![Docker Stop and Restart](docker_stop_restart.png)
+
+### Step 3 — Verify data is still present via `GET /users`
 
 The previously added data should still be present after restart.
+
+### Step 4 — Inspect the JSON file directly inside the container
+
+```bash
+docker exec -it fastapi-container sh
+cat /app/data/users.json
+```
+
+> The `users.json` file inside the container shows all stored users including those added before the restart.
+
+![Users JSON Data](users_data.png)
+
+---
 
 ## 🐞 Issue Faced & Fix
 
@@ -167,6 +208,8 @@ The application path was aligned with the Docker volume using an environment var
 DATA_DIR = os.getenv("DATA_DIR", "/app/data")
 ```
 
+---
+
 ## 📦 .dockerignore
 
 ```dockerignore
@@ -176,6 +219,8 @@ __pycache__
 .env
 ```
 
+---
+
 ## ✅ Conclusion
 - Dockerized the FastAPI application
 - Used Docker Compose for simplified setup
@@ -183,8 +228,12 @@ __pycache__
 - Used environment variables for flexible configuration
 - Verified data persistence successfully
 
+---
+
 ## 📬 Submission
 Share the GitHub repository link.
+
+---
 
 ## 💡 Key Takeaways
 This project demonstrates core DevOps concepts such as:
@@ -192,3 +241,13 @@ This project demonstrates core DevOps concepts such as:
 - Orchestration
 - Persistent storage
 - Environment-based configuration
+
+---
+
+## 👨‍💻 Author
+
+**Harshad Raurale**  
+DevOps / Cloud Enthusiast
+
+[![GitHub](https://img.shields.io/badge/GitHub-harshad8782-181717?style=flat&logo=github)](https://github.com/harshad8782)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Harshad_Raurale-0077B5?style=flat&logo=linkedin)](https://www.linkedin.com/in/harshad-raurale-9a4b4826b/)
