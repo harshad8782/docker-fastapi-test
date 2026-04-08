@@ -11,6 +11,7 @@ This project demonstrates how to containerize a FastAPI application using Docker
 │   └── main.py
 ├── data/
 │   └── users.json   # auto-created
+├── output
 ├── requirements.txt
 ├── Dockerfile
 ├── docker-compose.yml
